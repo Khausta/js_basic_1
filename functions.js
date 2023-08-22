@@ -50,14 +50,19 @@ console.log(canEnterToWebsite2(18));
 
 
 function canBuy(age, job, money) {
-    if (money >= 2000 || totalMmoney(age, job) >= 2000) {
+    if (money >= 2000) {
         return 'может'
-    }  
+    }  else {
+        bankMoney(age, job);
+        if (totalMoney(age, job, money) >= 2000 ) {
+            return 'может'
+        }
+    }
     return 'не может'
 }
 
 function bankMoney(age, job) {
-    if (age > 24 && job) {
+    if ((age > 24) && job) {
         return 500
     } else if (age > 24 ) {
         return 100
@@ -66,8 +71,8 @@ function bankMoney(age, job) {
     }
 } 
 
-function totalMmoney(age, job, money) {
-    return bankMoney(age, job) + money;
-}
+let totalMoney = (age, job, money) => bankMoney(age, job) + money;
 
-console.log(canBuy(24, true, 1800));
+console.log(totalMoney(25, true, 1500))
+
+console.log(canBuy(25, true, 1500));
