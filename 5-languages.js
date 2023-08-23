@@ -9,4 +9,6 @@ switch(language) {
     case('ru'):
         console.log('Добрый день');
         break;
+    default:
+        console.log('Вы можете ввести ru, en или de');
 }
