@@ -48,31 +48,63 @@ console.log(canEnterToWebsite2(18));
 // Напишите функцию, которая принимает данные пользователя и 
 // товара и возвращает true или false.
 
+//мой вариант
+// function canBuy(age, job, money) {
+//     if (money >= 2000) {
+//         return 'может'
+//     }  else {
+//         bankMoney(age, job);
+//         if (totalMoney(age, job, money) >= 2000 ) {
+//             return 'может'
+//         }
+//     }
+//     return 'не может'
+// }
 
-function canBuy(age, job, money) {
-    if (money >= 2000) {
-        return 'может'
-    }  else {
-        bankMoney(age, job);
-        if (totalMoney(age, job, money) >= 2000 ) {
-            return 'может'
-        }
-    }
-    return 'не может'
-}
+// function bankMoney(age, job) {
+//     if ((age > 24) && job) {
+//         return 500
+//     } else if (age > 24 ) {
+//         return 100
+//     } else {
+//         return 0
+//     }
+// } 
 
-function bankMoney(age, job) {
-    if ((age > 24) && job) {
-        return 500
-    } else if (age > 24 ) {
-        return 100
-    } else {
-        return 0
+// let totalMoney = (age, job, money) => bankMoney(age, job) + money;
+
+// console.log(totalMoney(25, true, 1500))
+
+// console.log(canBuy(25, true, 1500));
+
+function computerCredit(age, job = false) {
+    switch(true) {
+        case age > 24 && job:
+            return 500;
+        case age > 24:
+            return 100;
+        default: 
+            return 0;
     }
 } 
 
-let totalMoney = (age, job, money) => bankMoney(age, job) + money;
+function canBuy(price, age, money, job = false) {
+    const creditMoney = computerCredit(age, job);
+    return creditMoney + money >= price;
+}
 
-console.log(totalMoney(25, true, 1500))
+console.log(canBuy(2000, 25, 1900));
 
-console.log(canBuy(25, true, 1500));
+
+
+
+function a() {
+    return c();
+}
+function b() {
+    return 'Yes';
+}
+function c() {
+    return b;
+}
+console.log(a());
