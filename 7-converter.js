@@ -1,47 +1,48 @@
-// const sum = +prompt('Please enter your budget', '');
-// const currency = prompt('Please enter your currency', ''); //rub, $, shf
-// const targetCurrency = prompt('Please enter the currency for convertation', ''); //rub, $, shf
+const sum = +prompt('Please enter your budget', '');
+const entredCurrency = prompt('Please enter your currency', ''); //rub, $, shf
+const EntredTargetCurrency = prompt('Please enter the currency for convertation', ''); //rub, $, shf
 
-let sum = 100;
-let currency = 'euro';
-let targetCurrency = 'rub';
 
-console.log(currency == 'rub');
 
-const bets = {
-    dollarToRubles: 94.44,
-    euroToRubles: 102.25,
-    CHFToRubles: 107.27,
-}
+function calculate() {
+    
+    let dollarToRubles = 94.44;
+    let euroToRubles = 102.25;
+    let CHFToRubles = 107.27;
 
-let dollarsToRubles = () => console.log(sum * bets.dollarToRubles);
-let rublesToDollars = () => console.log(sum / bets.dollarToRubles);
-
-let eurosToRubles = () => console.log(sum * bets.euroToRubles);
-let rublesToEuros = () => console.log(sum / bets.euroToRubles);
-
-let CHFsToRubles = () => console.log(sum * bets.CHFToRubles);
-let rublesToCHF = () => console.log(sum / bets.CHFToRubles);
-
- 
-
-if (sum !== null && currency !== null && targetCurrency !== null) {
-    calculate(currency, targetCurrency);
-}
-
-function calculate(haveCurrency, willHaveCurrency) {
     switch(true) {
-        case(haveCurrency == 'rub' && willHaveCurrency == '$'):
-            return rublesToDollars();
-        case(haveCurrency == '$' && willHaveCurrency == 'rub'):
-            return dollarsToRubles();
-        case(haveCurrency == 'rub' && willHaveCurrency == 'euro'):
-            return rublesToEuros();
-        case(haveCurrency == 'euro' && willHaveCurrency == 'rub'):
-            return eurosToRubles();
-
+        case(currency == 'rub' && targetCurrency == '$'):
+            return sum / dollarToRubles;
+        case(currency == '$' && targetCurrency == 'rub'):
+            return sum * dollarToRubles;
+        case(currency == 'rub' && targetCurrency == 'euro'):
+            return sum / euroToRubles;
+        case(currency == 'euro' && targetCurrency == 'rub'):
+            return sum * euroToRubles;
+        case(currency == 'rub' && targetCurrency == 'chf'):
+            return sum / CHFToRubles;
+        case(currency == 'chf' && targetCurrency == 'rub'):
+            return sum * CHFToRubles;
+        
         default: 
-            console.log('fuck');
-            
+            alert(`Возможно, вы ввели валюту, 
+            которая еще не конвертируется на нашем сайте`);  
     }
 }
+
+function convertation() {
+    currency = entredCurrency.toLowerCase();
+    targetCurrency = EntredTargetCurrency.toLowerCase();
+    
+    if(sum && currency && targetCurrency) {
+        alert(calculate().toFixed(2));
+    } else {
+        alert('Пожалуйста, заполните все поля');
+
+    }
+}
+
+convertation();
+
+
+
