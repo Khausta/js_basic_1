@@ -1,9 +1,6 @@
 let array = [4 ,1, 7, 2, -1, 0, 8, 3];
 
-function getArr (arr, fn, n) {
-    return fn(arr, n);
-
-}
+let getArr = (arr, fn, n) => fn(arr, n);
 
 function arrFilter(arr, n) {
     for (let i = 0; i < arr.length; i++) {
