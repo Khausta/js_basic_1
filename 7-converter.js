@@ -1,14 +1,14 @@
 const sum = +prompt('Please enter your budget', '');
 const entredCurrency = prompt('Please enter your currency', ''); //rub, $, shf
-const EntredTargetCurrency = prompt('Please enter the currency for convertation', ''); //rub, $, shf
+const entredTargetCurrency = prompt('Please enter the currency for convertation', ''); //rub, $, shf
 
 
 
 function calculate() {
     
-    let dollarToRubles = 94.44;
-    let euroToRubles = 102.25;
-    let CHFToRubles = 107.27;
+    const dollarToRubles = 94.44;
+    const euroToRubles = 102.25;
+    const chfToRubles = 107.27;
 
     switch(true) {
         case(currency == 'rub' && targetCurrency == '$'):
@@ -20,9 +20,9 @@ function calculate() {
         case(currency == 'euro' && targetCurrency == 'rub'):
             return sum * euroToRubles;
         case(currency == 'rub' && targetCurrency == 'chf'):
-            return sum / CHFToRubles;
+            return sum / chfToRubles;
         case(currency == 'chf' && targetCurrency == 'rub'):
-            return sum * CHFToRubles;
+            return sum * chfToRubles;
         
         default: 
             alert(`Возможно, вы ввели валюту, 
@@ -32,7 +32,7 @@ function calculate() {
 
 function convertation() {
     currency = entredCurrency.toLowerCase();
-    targetCurrency = EntredTargetCurrency.toLowerCase();
+    targetCurrency = entredTargetCurrency.toLowerCase();
     
     if(sum && currency && targetCurrency) {
         alert(calculate().toFixed(2));
