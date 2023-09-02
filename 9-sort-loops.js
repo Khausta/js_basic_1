@@ -7,10 +7,8 @@ function increaseSort(arr) {
         
         for (let j = 0; j < i; j++) {
             if (arr[i] < arr[j]) {
-                let lessNumber = arr[i];
-                let moreNumber = arr[j];
-                arr[i] = moreNumber;
-                arr[j] = lessNumber;
+                const newArr = [arr[i], arr[j]];
+                [arr[j], arr[i]] = newArr;
             }
         }
     }
@@ -21,10 +19,8 @@ function decreaseSort(arr) {
     for (let i = 1; i < arr.length; i++) {
         for (let j = 0; j < i; j++) {
             if(arr[i] > arr[j]) {
-                let moreNumber = arr[i];
-                let lessNumber = arr[j];
-                arr[i] = lessNumber;
-                arr[j] = moreNumber;
+                const newArr = [arr[j], arr[i]];
+                [arr[i], arr[j]] = newArr;
             }
         }
     }
