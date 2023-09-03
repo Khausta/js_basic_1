@@ -23,7 +23,6 @@ function calculate() {
             return sum / chfToRubles;
         case(currency == 'chf' && targetCurrency == 'rub'):
             return sum * chfToRubles;
-        
         default: 
             alert(`Возможно, вы ввели валюту, 
             которая еще не конвертируется на нашем сайте`);  
@@ -33,12 +32,10 @@ function calculate() {
 function convertation() {
     currency = entredCurrency.toLowerCase();
     targetCurrency = entredTargetCurrency.toLowerCase();
-    
     if(sum && currency && targetCurrency) {
         alert(calculate().toFixed(2));
     } else {
         alert('Пожалуйста, заполните все поля');
-
     }
 }
 
