@@ -16,14 +16,16 @@ function rusOrEnglishCheck (dateArray, newArray) {
     dateArray.reduce((acc, date) => {
         acc = date;
         const symbol = acc.find(el => el === '-' || el === '/');
-        if(symbol == '-') {
-            acc = date.join('');
-            newArray.push(acc);
-        } else if (symbol == '/') {
-            acc = fromEngToRus(date);
-            newArray.push(acc);
-        } else {
-            return;
+        switch(symbol) {
+            case '-':
+                newArray.push(acc.join(''));
+                break;
+            case '/':
+                acc = fromEngToRus(date);
+                newArray.push(acc);
+                break;
+            default: 
+                return;
         }
     }, 0);
 }
