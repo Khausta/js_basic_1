@@ -53,3 +53,12 @@ console.log(str2.trim());
 console.log(str2.trimEnd());
 console.log(str2.trimStart());
 
+
+//задача маскировки карты
+const card = '2345234582345532423';
+const secretCard = card.slice(card.length - 4, card.length).padStart(card.length - 4, '*');
+console.log(secretCard)
+
+
+let str1 = 'How are you?';
+console.log(str1.split(' ')[1])
