@@ -1,15 +1,17 @@
-let array = [4 ,1, 7, 2, -1, 0, 8, 3];
+const array = [4, 1, 7, 2, -1, 0, 8, 3];
 
-let getArr = (arr, fn, n) => fn(arr, n);
-
-function arrFilter(arr, n) {
+const filter = (arr, fn) => {
+    const newArr = [];
+    //меняю const i на let i из-за TypeError: Assignment to constant variable
     for (let i = 0; i < arr.length; i++) {
-        if(arr[i] < n) {
-            arr.splice(i, 1);
-            i--;
-        }
+        if (fn(arr, i)) newArr.push(arr[i]);
     }
-    return arr;
+    return newArr;
+}
+ 
+const check = (arr, i) => {
+    if (arr[i] > 0) return true
 }
 
-console.log(getArr(array, arrFilter, 2));
+console.log(filter(array, check))
+
