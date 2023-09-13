@@ -5,7 +5,7 @@ const card2 = '4561-2612-1234-5646-nm';//false
 function cardValidator(cardNumber) {
     const clearCard = cardNumber.replaceAll('-','');
     if (Number(clearCard)) {
-        let arr = [...clearCard];
+        const arr = [...clearCard];
         let sum = 0;
             
         for (let i = arr.length % 2; i < arr.length; i += 2) {
@@ -21,7 +21,7 @@ function cardValidator(cardNumber) {
         }, 0);
 
         return sum % 10 === 0
-        
+
     } else {
         return false
     }
