@@ -1,66 +1,51 @@
 
-const arrayOfDates = ['10-02-2022', 'тест', '11/13/2023', '00/43/2022', '41/12/2023', '10/28/2000'];
-const correctDateArray = [];
+const arrayOfDates = ['10-02-2022', 'тест', '11/13/2023', '00/43/2022', '41/12/2023', '10/28/2000', '04/31/2020', '10-12-2020', '31-10-0000', '31-04-1999'];
+
 
 //общая функция проверки и формирования корректного массива
 function checkDates(dateArray) {
-    const myArr = [];
-    const inputArr = dateArray.map(item => item.split(''));
-    rusOrEnglishCheck(inputArr, myArr);
-    dateValidator(myArr);
-    console.log(correctDateArray);
+    const inputArr = dateArray.map(item => transformDateStringToArray(item));
+    console.log(inputArr);
+   return validator(inputArr);
 }
 
-//функция проверки формата даты
-function rusOrEnglishCheck (dateArray, newArray) {
-    dateArray.reduce((acc, date) => {
-        acc = date;
-        const symbol = acc.find(el => el === '-' || el === '/');
-        switch(symbol) {
-            case '-':
-                newArray.push(acc.join(''));
-                break;
-            case '/':
-                acc = fromEngToRus(date);
-                newArray.push(acc);
-                break;
-            default: 
-                return;
-        }
-    }, 0);
-}
+function transformDateStringToArray(dateString) {
+    let [month, day, year] = dateString.split('/');
 
-//функция перевода английского формата в русский
-function fromEngToRus(date) {
-    date = date.join('').split('/');
-    let day = date[1];
-    let month = date[0];
-    let year = date[2];
-    date = [day, month, year].join('-');
-    return date;
-}
-
-//функция проверки дат русского формата и переведенных в русский формат
-function dateValidator(checkedDateArr) {
-    for (const date of checkedDateArr) {
-        const item = date.split('-');
-        if(+item[0] > 0 &&  +item[0] < 32) {
-            if (+item[1] > 0 &&  +item[1] < 13) {
-                if(+item[2] > 1990 &&  +item[2] < 2024) {
-                    correctDateArray.push(date);
-                } else {
-                    continue;
-                }
-            } else {
-                continue;
-            }
-        } else {
-            continue;
-        }
+    if (!year) {
+        [day, month, year] = dateString.split('-');
     }
+
+    if(!year || isNaN(day) || isNaN(month) || isNaN(year)) {
+        return null
+    }
+
+    return [day, month, year];
+}
+
+
+function validator(array) {
+    const newArray = [];
+    for (const date of array) {
+        if  (date === null) continue;
+
+        let [day, month, year] = date;
+
+        if(Number(month) < 1 || Number(month) > 12) continue;
+
+        if(Number(day) < 1 || Number(day) > 31) continue;
+
+        if(Number(month) === 4 && Number(day) > 30) continue;
+        
+        if(Number(year) < 1 || Number(year) > 2023) continue;
+
+        newArray.push([day, month, year].join('-'));
+    } 
+    return newArray;
 }
 
 checkDates(arrayOfDates);
+console.log(checkDates(arrayOfDates));
 
 
 
