@@ -5,8 +5,7 @@ const arrayOfDates = ['10-02-2022', 'тест', '11/13/2023', '00/43/2022', '41/
 //общая функция проверки и формирования корректного массива
 function checkDates(dateArray) {
     const inputArr = dateArray.map(item => transformDateStringToArray(item));
-    console.log(inputArr);
-   return validator(inputArr);
+    return validator(inputArr);
 }
 
 function transformDateStringToArray(dateString) {
