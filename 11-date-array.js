@@ -1,64 +1,50 @@
 
-const arrayOfDates = ['10-02-2022', 'тест', '11/13/2023', '00/43/2022', '41/12/2023', '10/28/2000'];
-const correctDateArray = [];
+const arrayOfDates = ['10-02-2022', 'тест', '11/13/2023', '00/43/2022', '41/12/2023', '10/28/2000', '04/31/2020', '10-12-2020', '31-10-0000', '31-04-1999'];
+
 
 //общая функция проверки и формирования корректного массива
 function checkDates(dateArray) {
     const inputArr = dateArray.map(item => transformDateStringToArray(item));
-    console.log(inputArr.length);
-    
-    const correctDates = dateValidator(inputArr);
-    console.log(correctDates);
-   
+    return validator(inputArr);
 }
-
 
 function transformDateStringToArray(dateString) {
     let [month, day, year] = dateString.split('/');
-    console.log([month, day, year]);
 
     if (!year) {
-       [day, month, year] = dateString.split('-');
-       console.log([day, month, year]);
+        [day, month, year] = dateString.split('-');
     }
 
     if(!year || isNaN(day) || isNaN(month) || isNaN(year)) {
         return null
     }
 
-    return [day, month, year];  
+    return [day, month, year];
 }
 
-//функция валидации
-function dateValidator(dateArray) {
-    console.log(dateArray)
-    const validatedDatesArray = [];
 
-    for (const date of dateArray) {
-        console.log(date)
-        if(date === null) continue;
-        const [day, month, year] = date;
-        console.log(day, month, year);
+function validator(array) {
+    const newArray = [];
+    for (const date of array) {
+        if  (date === null) continue;
 
-        if(month < 1 || month > 12) {
-            console.log(month)
-            console.log(month < 1 || month > 12)
-            return
-        } else if (day < 1|| day > 31) {
-            return  
-        } else if (month === 4 && day > 28) {
-            return
-        } else if (year < 1) {
-            return
-        }
-        console.log([day, month, year].join('-'));
-        validatedDatesArray.push([day, month, year].join('-'));
-    }
-    console.log(validatedDatesArray);
-    return validatedDatesArray;
+        let [day, month, year] = date;
+
+        if(Number(month) < 1 || Number(month) > 12) continue;
+
+        if(Number(day) < 1 || Number(day) > 31) continue;
+
+        if(Number(month) === 4 && Number(day) > 30) continue;
+        
+        if(Number(year) < 1 || Number(year) > 2023) continue;
+
+        newArray.push([day, month, year].join('-'));
+    } 
+    return newArray;
 }
 
 checkDates(arrayOfDates);
+console.log(checkDates(arrayOfDates));
 
 
 
