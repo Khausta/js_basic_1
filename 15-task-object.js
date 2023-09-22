@@ -49,8 +49,7 @@ const toDoList = {
                 const removedTask = this.tasks.splice(index, 1);
                 console.log(`Задача "${removedTask[0].title}" удалена`);
             }
-        })
-        
+        }) 
     },
 
     updateTask: function(id, option, value) {
@@ -81,21 +80,16 @@ const toDoList = {
     }
 }
 
-// toDoList.addTask()
-toDoList.addTask('Помыть посуду', 4);
-toDoList.addTask('Выучить стих', 2);
-console.log(toDoList.tasks);
-toDoList.addTask('Посадить цветок', 5);
-console.log(toDoList.tasks);
+
+// проверки
+// toDoList.addTask('Помыть посуду', 4);
+// toDoList.addTask('Выучить стих', 2);
+// toDoList.addTask('Посадить цветок', 5);
+// toDoList.addTask('Посадить цветок', 5);
 // toDoList.removeTaskByID(2);
-// console.log(toDoList.tasks);
 // toDoList.removeTaskByID(2);
-// // console.log(toDoList.tasks);
 // toDoList.addTask('Полить цветок', 8);
 // toDoList.addTask('Приготовить ужин', 6);
-// console.log(toDoList.tasks);
 // toDoList.updateTask(3, 'priority', 100);
 // toDoList.updateTask(3, 'title', 'Покрасить стены');
-// console.log(toDoList.tasks);
 // toDoList.sortTasksByPriority();
-// console.log(toDoList.tasks);
