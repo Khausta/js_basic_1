@@ -46,14 +46,14 @@ const toDoList = {
         
     } ,
 
-    removeTaskByID() {
+    removeTaskByID(id) {
 
-        return function(id) {
+       
             let isExistedId = this.tasks.find(el => {
                 console.log(el.id)
                 return el.id == id;  
             });
-            console.log(isExistedId)
+
             if (!isExistedId) {
                 console.log(`Задачи с id = ${id} нет в списке`);
                 console.log(id);
@@ -63,38 +63,37 @@ const toDoList = {
             this.tasks.map((task, index) => {
                 if(task.id === id) {
                     const removedTask = this.tasks.splice(index, 1);
-                    console.log(`Задача "${removedTask[0].title}" удалена`);
+                    console.log(`Задача "${removedTask[0].task}" удалена`);
                 }
             })
-        }   
+          
     },
 
-    updateTask() {
+    updateTask(option, id, value) {
        
-        return function(option, id, value) {
+      
             this.tasks.map(task => {
-                console.log(task);
                 if (task.id === id) {
                     switch(option) {
                         case 'title':
                             const oldTitle = task.task;
-                            task[`${option}`] = value;
-                            console.log(`Задача "${oldTitle}" переименована на "${task.title}"`);
+                            task.task = value;
+                            console.log(`Задача "${oldTitle}" переименована на "${task.task}"`);
                             break;
                         case 'priority': 
                             task[`${option}`] = value;
-                            console.log(`Приоритет задачи "${task.title}" изменен`);
+                            console.log(`Приоритет задачи "${task.task}" изменен`);
                             break;
                         default:
                             console.log('Введите правильные значения');
                     }
                 }
             })
-        }  
+          
         
     },
 
-    sortTasksByPriority: function() {
+    sortTasksByPriority() {
         this.tasks.sort((a, b) => {
             return b.priority - a.priority;
         })
@@ -119,30 +118,43 @@ const newTask = {
     ]
 };
 
-// const addTask = toDoList.addTask().bind(newTask);
-
-// addTask('Пройти тему scope', 10);
-// addTask('Пройти тему scope', 10);
-// addTask('Разобрать книги', 8);
-// console.log(newTask.tasks);
-
-// const removeTaskByID = toDoList.removeTaskByID().bind(newTask);
-// removeTaskByID(3);
-// console.log(newTask);
-
+//проверки
 toDoList.addTask('Собрать яблоки', 4);
 toDoList.addTask('Собрать яблоки', 4);
-// toDoList.updateTask('title', 2, 'Стать космонавтом');
 console.log(toDoList.tasks);
-console.log(newTask);
 
-// const updateTaskByTitle = toDoList.updateTask().bind(newTask);
-// updateTaskByTitle('title', 1, 'Стать звездой');
-// console.log(newTask.tasks);
+const addTask = toDoList.addTask.bind(newTask);
+addTask('Собрать груши', 4);
+console.log(newTask.tasks);
+
+toDoList.removeTaskByID(2);
+toDoList.removeTaskByID(2);
+
+const removeTaskByID = toDoList.removeTaskByID.bind(newTask);
+removeTaskByID(1);
+console.log(newTask.tasks);
+
+toDoList.updateTask('title', 1, 'Стать космонавтом');
+console.log(toDoList.tasks);
+
+const updateTaskTitleByID = toDoList.updateTask.bind(newTask, 'title');
+updateTaskTitleByID(2, 'Забраться на Эверест');
+console.log(newTask.tasks);
+
+toDoList.updateTask('priority', 1, 300);
+console.log(toDoList.tasks);
+
+const updateTaskPriorityByID = toDoList.updateTask.bind(newTask, 'priority');
+updateTaskPriorityByID(2, 200);
+console.log(newTask.tasks);
+
+toDoList.sortTasksByPriority();
+
+const sortTasksByPriority = toDoList.sortTasksByPriority.bind(newTask);
+sortTasksByPriority();
 
 
 
-// console.log(toDoList.tasks);
 
 
 
