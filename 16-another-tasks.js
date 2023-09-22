@@ -14,13 +14,13 @@ const toDoList = {
         }
     ],
 
-    addTask() {
-        return function(task, priority) {
+    addTask(task, priority) {
         
             //проверка на существование задачи
             let isExisted = false;
             this.tasks.forEach(el => {
-                if (el.title === task) {
+                if (el.task === task) {
+                    console.log(el.task);
                     isExisted = true;
                 }
             })
@@ -37,13 +37,13 @@ const toDoList = {
             const id = ++idsArr[0];
     
             this.tasks.push({
-                'title': task,
+                task: task,
                 id,
                 priority
             });
             console.log(`Задача "${task}" успешно добавлена \nid задачи ${id} `)
             
-        }
+        
     } ,
 
     removeTaskByID() {
@@ -70,12 +70,14 @@ const toDoList = {
     },
 
     updateTask() {
-        return function(id, option, value) {
+       
+        return function(option, id, value) {
             this.tasks.map(task => {
+                console.log(task);
                 if (task.id === id) {
                     switch(option) {
                         case 'title':
-                            const oldTitle = task.title;
+                            const oldTitle = task.task;
                             task[`${option}`] = value;
                             console.log(`Задача "${oldTitle}" переименована на "${task.title}"`);
                             break;
@@ -88,7 +90,8 @@ const toDoList = {
                     }
                 }
             })
-        }
+        }  
+        
     },
 
     sortTasksByPriority: function() {
@@ -116,21 +119,26 @@ const newTask = {
     ]
 };
 
-const addTask = toDoList.addTask().bind(newTask);
+// const addTask = toDoList.addTask().bind(newTask);
 
-addTask('Пройти тему scope', 10);
-addTask('Пройти тему scope', 10);
-addTask('Разобрать книги', 8);
-console.log(newTask.tasks);
+// addTask('Пройти тему scope', 10);
+// addTask('Пройти тему scope', 10);
+// addTask('Разобрать книги', 8);
+// console.log(newTask.tasks);
 
-const removeTaskByID = toDoList.removeTaskByID().bind(newTask);
-removeTaskByID(3);
+// const removeTaskByID = toDoList.removeTaskByID().bind(newTask);
+// removeTaskByID(3);
+// console.log(newTask);
+
+toDoList.addTask('Собрать яблоки', 4);
+toDoList.addTask('Собрать яблоки', 4);
+// toDoList.updateTask('title', 2, 'Стать космонавтом');
+console.log(toDoList.tasks);
 console.log(newTask);
 
-const updateTaskByTitle = toDoList.updateTask(id, 'title').bind(newTask);
-updateTaskByTitle(1, 'Стать звездой');
-console.log(newTask);
-
+// const updateTaskByTitle = toDoList.updateTask().bind(newTask);
+// updateTaskByTitle('title', 1, 'Стать звездой');
+// console.log(newTask.tasks);
 
 
 
