@@ -7,37 +7,49 @@ const toDoList = {
             'title': 'Помыть посуду',
             id: 1,
             priority: 1
-        },
+        }
     ],
 
     addTask: function(task, priority) {
-        const isExistedTask = this.tasks.find(el => {
-            return el.title === `${task}`; 
+        //проверка на существоание задачи
+        let isExisted = false;
+        this.tasks.forEach(el => {
+            if (el.title === task) {
+                isExisted = true;
+            }
         })
-
-        if(!isExistedTask) {
-            const newTask = {
-                'title': task,
-                id: ++this.lastId,
-                priority
-            };
-            this.tasks.push(newTask);
-            console.log(`Задача "${task}" успешно добавлена \nid задачи ${newTask.id}`)
-        } else {
+        //добавление задачи
+        if (isExisted) {
             console.log(`Задача "${task}" уже существет`);
+            return
         }
+        
+        this.tasks.push({
+            'title': task,
+            id: ++this.lastId,
+            priority
+        });
+        console.log(`Задача "${task}" успешно добавлена \nid задачи ${this.lastId}`)
     },
 
     removeTaskByID: function(id) {
-        const isExistedId = this.tasks.map((task, index) => {
+        let isExistedId = this.tasks.find(el => {
+            console.log(el.id)
+            return el.id == id;  
+        });
+        console.log(isExistedId)
+        if (!isExistedId) {
+            console.log(`Задачи с id = ${id} нет в списке`);
+            console.log(id);
+            return;
+        }   
+
+        this.tasks.map((task, index) => {
             if(task.id === id) {
                 const removedTask = this.tasks.splice(index, 1);
                 console.log(`Задача "${removedTask[0].title}" удалена`);
             }
-            return task.id ;
-        })
-        console.log(isExistedId)
-        
+        }) 
     },
 
     updateTask: function(id, option, value) {
@@ -45,12 +57,13 @@ const toDoList = {
             if (task.id === id) {
                 switch(option) {
                     case 'title':
+                        const oldTitle = task.title;
                         task[`${option}`] = value;
-                        console.log('Задача переименована');
+                        console.log(`Задача "${oldTitle}" переименована на "${task.title}"`);
                         break;
                     case 'priority': 
                         task[`${option}`] = value;
-                        console.log('Приоритет задачи изменен');
+                        console.log(`Приоритет задачи "${task.title}" изменен`);
                         break;
                     default:
                         console.log('Введите правильные значения');
@@ -67,21 +80,16 @@ const toDoList = {
     }
 }
 
-toDoList.addTask('Помыть посуду', 4);
-toDoList.addTask('Выучить стих', 2);
-toDoList.addTask('Посадить цветок', 5);
-toDoList.addTask('Полить цветок', 8);
-toDoList.addTask('Приготовить ужин', 6);
-console.log(toDoList.tasks);
+
+// проверки
+// toDoList.addTask('Помыть посуду', 4);
+// toDoList.addTask('Выучить стих', 2);
+// toDoList.addTask('Посадить цветок', 5);
+// toDoList.addTask('Посадить цветок', 5);
 // toDoList.removeTaskByID(2);
-// console.log(toDoList.tasks);
+// toDoList.removeTaskByID(2);
+// toDoList.addTask('Полить цветок', 8);
+// toDoList.addTask('Приготовить ужин', 6);
 // toDoList.updateTask(3, 'priority', 100);
 // toDoList.updateTask(3, 'title', 'Покрасить стены');
-// console.log(toDoList.tasks)
 // toDoList.sortTasksByPriority();
-// console.log(toDoList.tasks);
-
-// toDoList.removeTaskByID(20);
-// toDoList.removeTaskByID(3);
-// toDoList.removeTaskByID(5);
-
