@@ -10,7 +10,7 @@ const toDoList = {
         }
     ],
 
-    addTask: function(newTaskObj) {
+    addTask(newTaskObj) {
         //определение id
         const idsArr = this.tasks
         .map(task => task.id)
@@ -32,7 +32,7 @@ const toDoList = {
         });    
     },
 
-    removeTaskByID: function(id) {
+    removeTaskByID(id) {
         if (!this.checkId(id))  {
             console.log(`Задачи с id = ${id} нет в списке`);
             return
@@ -45,7 +45,7 @@ const toDoList = {
         }) 
     },
 
-    updateTask: function(id, updatedTask) {
+    updateTask(id, updatedTask) {
         const oldTask = this.checkId(id);
         if (!oldTask) {
             console.log(`Нет задачи с id ${id}`);
@@ -62,7 +62,7 @@ const toDoList = {
 
     },
 
-    sortTasksByPriority: function() {
+    sortTasksByPriority() {
         this.tasks.sort((a, b) => {
             return b.priority - a.priority;
         });
@@ -79,6 +79,11 @@ const task2 = {
     title: 'Пыгнуть с парашютом',
     priority: 4
 };
+const task3 = {
+    title: 'Решить головоломку',
+    priority: 7,
+    description: 'Головка на тему Лара Крофт'
+};
 const optionsToBeUpdated1 = {
     priority: 500,
 };
@@ -93,6 +98,7 @@ const optionsToBeUpdated3 = {
 // проверки
 toDoList.addTask(task1);
 toDoList.addTask(task2);
+toDoList.addTask(task3);
 toDoList.updateTask(2, optionsToBeUpdated3);
 console.log(toDoList.tasks);
 toDoList.updateTask(1, optionsToBeUpdated1);
