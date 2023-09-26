@@ -29,12 +29,15 @@ const toDoList = {
     },
 
     removeTaskByID: function(id) {
-        this.tasks.map((task, index) => {
+        const isExistedId = this.tasks.map((task, index) => {
             if(task.id === id) {
                 const removedTask = this.tasks.splice(index, 1);
                 console.log(`Задача "${removedTask[0].title}" удалена`);
             }
+            return task.id ;
         })
+        console.log(isExistedId)
+        
     },
 
     updateTask: function(id, option, value) {
@@ -67,18 +70,18 @@ const toDoList = {
 toDoList.addTask('Помыть посуду', 4);
 toDoList.addTask('Выучить стих', 2);
 toDoList.addTask('Посадить цветок', 5);
-
-console.log(toDoList.tasks);
-
-toDoList.removeTaskByID(2);
-
-console.log(toDoList.tasks);
 toDoList.addTask('Полить цветок', 8);
 toDoList.addTask('Приготовить ужин', 6);
-
-toDoList.updateTask(3, 'priority', 100);
-toDoList.updateTask(3, 'title', 'Покрасить стены');
-console.log(toDoList.tasks)
-
-toDoList.sortTasksByPriority();
 console.log(toDoList.tasks);
+// toDoList.removeTaskByID(2);
+// console.log(toDoList.tasks);
+// toDoList.updateTask(3, 'priority', 100);
+// toDoList.updateTask(3, 'title', 'Покрасить стены');
+// console.log(toDoList.tasks)
+// toDoList.sortTasksByPriority();
+// console.log(toDoList.tasks);
+
+// toDoList.removeTaskByID(20);
+// toDoList.removeTaskByID(3);
+// toDoList.removeTaskByID(5);
+
