@@ -10,26 +10,20 @@ const toDoList = {
         }
     ],
 
-    addTask: function(task, priority) {
-        //проверка на существоание задачи
-        let isExisted = false;
-        this.tasks.forEach(el => {
-            if (el.title === task) {
-                isExisted = true;
-            }
-        })
-        //добавление задачи
-        if (isExisted) {
-            console.log(`Задача "${task}" уже существет`);
-            return
-        }
+    addTask: function(newTask) {
+        //определение id
+        const idsArr = this.tasks
+        .map(task => task.id)
+        .sort((a, b) => b - a);
         
-        this.tasks.push({
-            'title': task,
-            id: ++this.lastId,
-            priority
-        });
-        console.log(`Задача "${task}" успешно добавлена \nid задачи ${this.lastId}`)
+        const taskObj = {
+            id: ++idsArr[0],
+            ...newTask
+        }
+        //добавление задачи
+        this.tasks.push(taskObj)
+        console.log(`Задача "${taskObj.title}" успешно добавлена \nid задачи ${taskObj.id}`)
+        console.log(this.tasks);
     },
 
     removeTaskByID: function(id) {
@@ -80,7 +74,18 @@ const toDoList = {
     }
 }
 
+const task1 = {
+    'title': 'Медитация',
+    priority: 8
+}
+const task2 = {
+    title: 'Пыгнуть с парашютом',
+    priority: 4
+}
 
+
+toDoList.addTask(task1);
+toDoList.addTask(task2);
 // проверки
 // toDoList.addTask('Помыть посуду', 4);
 // toDoList.addTask('Выучить стих', 2);
