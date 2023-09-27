@@ -46,20 +46,24 @@ const toDoList = {
     },
 
     updateTask(id, updatedTask) {
-        const oldTask = this.checkId(id);
+        let oldTask = this.checkId(id);
+      
         if (!oldTask) {
             console.log(`Нет задачи с id ${id}`);
             return;
         }
+
         for (const [key, value] of Object.entries(updatedTask)) {
             if (key === 'title') {
               oldTask.title = value;
+              continue;
             }
             if (key === 'priority') {
                 oldTask.priority = value;
+                continue;
             }
+            oldTask[`${key}`] = value;
         }
-
     },
 
     sortTasksByPriority() {
@@ -89,10 +93,13 @@ const optionsToBeUpdated1 = {
 };
 const optionsToBeUpdated2 = {
     'title': 'Прочитать инструкцию',
+
 };
 const optionsToBeUpdated3 = {
     priority: 3500,
-    'title': 'Починить фен'
+    'title': 'Починить фен',
+    description: 'Найти мастера'
+   
 };
 
 // проверки
@@ -105,8 +112,10 @@ toDoList.updateTask(1, optionsToBeUpdated1);
 console.log(toDoList.tasks);
 toDoList.updateTask(10, optionsToBeUpdated2);
 console.log(toDoList.tasks);
-toDoList.removeTaskByID(2);
+toDoList.updateTask(2, optionsToBeUpdated2);
 console.log(toDoList.tasks);
-toDoList.removeTaskByID(2);
-console.log(toDoList.tasks);
+// toDoList.removeTaskByID(2);
+// console.log(toDoList.tasks);
+// toDoList.removeTaskByID(2);
+// console.log(toDoList.tasks);
 toDoList.sortTasksByPriority();
