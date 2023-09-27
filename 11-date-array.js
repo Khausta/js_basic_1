@@ -50,7 +50,7 @@ function validator(array) {
             //проверка февраля
             if (Number(month) === 2) {
                 //если высокосный год
-                if (!(Number(year) % 4)  && Number(day) > 29) {
+                if (!(Number(year) % 4) && Number(day) > 29) {
                     continue;
                 //если НЕвысокосный год
                 } else if ((Number(year) % 4) && Number(day) > 28) {
