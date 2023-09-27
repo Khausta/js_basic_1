@@ -38,7 +38,7 @@ function validator(array) {
             continue;
         // Проверяю валидна ли дата.
         }  else {
-            //проверка месяцов в которых 30 дней
+            //проверка месяцев в которых 30 дней
             if ((Number(month) === 4 || 
                 Number(month) === 6 ||
                 Number(month) === 9 ||
@@ -58,14 +58,18 @@ function validator(array) {
     return newArray;
 }
 
+//проверки
 checkDates(arrayOfDates);
 console.log(checkDates(arrayOfDates));
-
 const arrayOfDates2 = ['31-04-2023', '04/31/2023', '30-04-2023', '04/30/2023'];
 console.log(checkDates(arrayOfDates2));
 //высокосные года
-const arrayOfDates3 = ['28-02-1988', '30-02-1988', '04/31/2023', '30-04-2023', '04/30/2023'];
+const arrayOfDates3 = ['28-02-1988', '29-02-1988', '30-02-1988', '29-02-1999', '28-02-1999'];
 console.log(checkDates(arrayOfDates3));
+//месяца в которых маусимуим 30 дней
+const arrayOfDates4 = ['31-09-2023', '30-09-2023', '31-08-2022', '06/31/2020', '06/30/2020'];
+console.log(checkDates(arrayOfDates4));
+
 
 
 
