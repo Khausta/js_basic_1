@@ -39,14 +39,13 @@ function validator(array) {
             continue;
         }
         // Проверяю валидна ли дата.
-        if (Number(day) < 0 && Number(day) > 31) {
+        if (Number(day) < 0 || Number(day) > 31) {
             continue;
         } else {
-            //проверка месяцев в которых 30 дней
-            if (Number(month) === 4 || Number(month) === 6 || Number(month) === 9 || Number(month) === 11 ) {
-                if (Number(day) > 30) {
-                    continue;
-                }
+            //проверка месяцев, в которых 30 дней максимум
+            const is30daysInMonth = [4, 6, 9, 11].find(el => el === Number(month));
+            if (is30daysInMonth && Number(day) > 30) {
+                continue;
             }  
             //проверка февраля
             if (Number(month) === 2) {
@@ -74,8 +73,8 @@ console.log(checkDates(arrayOfDates2));
 //высокосные года
 const arrayOfDates3 = ['28-02-1988', '29-02-1988', '30-02-1988', '29-02-1999', '28-02-1999'];
 console.log(checkDates(arrayOfDates3));
-//месяца в которых маусимуим 30 дней
-const arrayOfDates4 = ['31-09-2023', '30-09-2023', '31-08-2022', '06/31/2020', '06/30/2020'];
+// месяца в которых маусимуим 30 дней
+const arrayOfDates4 = ['32-05-2023', '31-05-2023', '31-06-2023', '30-06-2023', '31-10-2023', '31-09-2023', '30-09-2023', '31-08-2022', '06/31/2020', '06/30/2020'];
 console.log(checkDates(arrayOfDates4));
 
 
