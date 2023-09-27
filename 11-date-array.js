@@ -30,15 +30,30 @@ function validator(array) {
 
         let [day, month, year] = date;
 
-        if(Number(month) < 1 || Number(month) > 12) continue;
-
-        if(Number(day) < 1 || Number(day) > 31) continue;
-
-        if(Number(month) === 4 && Number(day) > 30) continue;
-        
-        if(Number(year) < 1 || Number(year) > 2023) continue;
-
-        newArray.push([day, month, year].join('-'));
+        //Проверяю валиден ли год
+        if (Number(year) < 1 || Number(year) > 2023) {
+            continue;
+        //Проверяю валиден ли месяц
+        } else if (Number(month) < 1 || Number(month) > 12) {
+            continue;
+        // Проверяю валидна ли дата.
+        }  else {
+            //проверка месяцов в которых 30 дней
+            if ((Number(month) === 4 || 
+                Number(month) === 6 ||
+                Number(month) === 9 ||
+                Number(month) === 11) && Number(day) > 30) {
+                continue;
+            //проверка высокосного года и количества дней в фервале
+            } else if (!(Number(year) % 4) && Number(month) === 2 && Number(day) > 29) {
+                continue;
+            //проверка НЕвысокосного года и количества дней в фервале
+            } else if ((Number(year) % 4) && Number(month) === 2 && Number(day) > 28) {
+                continue;
+            } else {
+                newArray.push([day, month, year].join('-'));
+            }
+        }
     } 
     return newArray;
 }
@@ -48,6 +63,9 @@ console.log(checkDates(arrayOfDates));
 
 const arrayOfDates2 = ['31-04-2023', '04/31/2023', '30-04-2023', '04/30/2023'];
 console.log(checkDates(arrayOfDates2));
+//высокосные года
+const arrayOfDates3 = ['28-02-1988', '30-02-1988', '04/31/2023', '30-04-2023', '04/30/2023'];
+console.log(checkDates(arrayOfDates3));
 
 
 
