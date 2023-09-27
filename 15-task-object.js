@@ -54,14 +54,6 @@ const toDoList = {
         }
 
         for (const [key, value] of Object.entries(updatedTask)) {
-            if (key === 'title') {
-              oldTask.title = value;
-              continue;
-            }
-            if (key === 'priority') {
-                oldTask.priority = value;
-                continue;
-            }
             oldTask[`${key}`] = value;
         }
     },
@@ -102,6 +94,13 @@ const optionsToBeUpdated3 = {
    
 };
 
+const optionsToBeUpdated4 = {
+    priority: 100000000000000,
+    'title': 'bcghdgsssssssssssssssssssssssssssssssssssssssssssssssss',
+    time: '10.20'
+   
+};
+
 // проверки
 toDoList.addTask(task1);
 toDoList.addTask(task2);
@@ -113,9 +112,10 @@ console.log(toDoList.tasks);
 toDoList.updateTask(10, optionsToBeUpdated2);
 console.log(toDoList.tasks);
 toDoList.updateTask(2, optionsToBeUpdated2);
+toDoList.updateTask(3, optionsToBeUpdated4);
 console.log(toDoList.tasks);
-// toDoList.removeTaskByID(2);
-// console.log(toDoList.tasks);
+toDoList.removeTaskByID(2);
+console.log(toDoList.tasks);
 // toDoList.removeTaskByID(2);
 // console.log(toDoList.tasks);
 toDoList.sortTasksByPriority();
