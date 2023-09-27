@@ -33,28 +33,36 @@ function validator(array) {
         //Проверяю валиден ли год
         if (Number(year) < 1 || Number(year) > 2023) {
             continue;
-        //Проверяю валиден ли месяц
-        } else if (Number(month) < 1 || Number(month) > 12) {
-            continue;
-        // Проверяю валидна ли дата.
-        }  else {
-            //проверка месяцев в которых 30 дней
-            if ((Number(month) === 4 || 
-                Number(month) === 6 ||
-                Number(month) === 9 ||
-                Number(month) === 11) && Number(day) > 30) {
-                continue;
-            //проверка высокосного года и количества дней в фервале
-            } else if (!(Number(year) % 4) && Number(month) === 2 && Number(day) > 29) {
-                continue;
-            //проверка НЕвысокосного года и количества дней в фервале
-            } else if ((Number(year) % 4) && Number(month) === 2 && Number(day) > 28) {
-                continue;
-            } else {
-                newArray.push([day, month, year].join('-'));
-            }
         }
+        //Проверяю валиден ли месяц
+        if (Number(month) < 1 || Number(month) > 12) {
+            continue;
+        }
+        // Проверяю валидна ли дата.
+        if (Number(day) < 0 && Number(day) > 31) {
+            continue;
+        } else {
+            //проверка месяцев в которых 30 дней
+            if (Number(month) === 4 || Number(month) === 6 || Number(month) === 9 || Number(month) === 11 ) {
+                if (Number(day) > 30) {
+                    continue;
+                }
+            }  
+            //проверка февраля
+            if (Number(month) === 2) {
+                //если высокосный год
+                if (!(Number(year) % 4)  && Number(day) > 29) {
+                    continue;
+                //если НЕвысокосный год
+                } else if ((Number(year) % 4) && Number(day) > 28) {
+                    continue;
+                } 
+            } 
+        }
+        
+        newArray.push([day, month, year].join('-'));    
     } 
+
     return newArray;
 }
 
