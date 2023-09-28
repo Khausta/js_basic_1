@@ -41,22 +41,32 @@ function validator(array) {
         // Проверяю валидна ли дата.
         if (Number(day) < 0 || Number(day) > 31) {
             continue;
-        } else {
-            //проверка месяцев, в которых 30 дней максимум
-            const is30daysInMonth = [4, 6, 9, 11].find(el => el === Number(month));
-            if (is30daysInMonth && Number(day) > 30) {
+        } 
+        
+        //проверка месяцев, в которых 30 дней максимум
+        const is30daysInMonth = [4, 6, 9, 11].find(el => el === Number(month));
+        if (is30daysInMonth && Number(day) > 30) {
+            continue;
+        }  
+        //проверка февраля
+        if (Number(month) === 2 && Number(day) < 30) {
+            let isLeapYear = false;
+            // определение высокосного года
+            if (!(Number(year) % 100)) {
+                if (!(Number(year) % 400)) {
+                    isLeapYear = true;
+                }
+            } else {
+                if (!(Number(year) % 4)) {
+                    isLeapYear = true;
+                }
+            }
+            //проверка для невысокосного года
+            if (!isLeapYear && Number(day) > 28) {
                 continue;
-            }  
-            //проверка февраля
-            if (Number(month) === 2) {
-                //если высокосный год
-                if (!(Number(year) % 4)  && Number(day) > 29) {
-                    continue;
-                //если НЕвысокосный год
-                } else if ((Number(year) % 4) && Number(day) > 28) {
-                    continue;
-                } 
-            } 
+            }
+        } else {
+            continue;
         }
         
         newArray.push([day, month, year].join('-'));    
@@ -71,11 +81,11 @@ console.log(checkDates(arrayOfDates));
 const arrayOfDates2 = ['31-04-2023', '04/31/2023', '30-04-2023', '04/30/2023'];
 console.log(checkDates(arrayOfDates2));
 //высокосные года
-const arrayOfDates3 = ['28-02-1988', '29-02-1988', '30-02-1988', '29-02-1999', '28-02-1999'];
+const arrayOfDates3 = ['28-02-1988', '29-02-1988', '30-02-1988', '29-02-1999', '28-02-1999', '28-02-1900', '29-02-1900',  ];
 console.log(checkDates(arrayOfDates3));
 //месяца в которых маусимуим 30 дней
-const arrayOfDates4 = ['32-05-2023', '31-05-2023', '31-06-2023', '30-06-2023', '31-10-2023', '31-09-2023', '30-09-2023', '31-08-2022', '06/31/2020', '06/30/2020'];
-console.log(checkDates(arrayOfDates4));
+// const arrayOfDates4 = ['32-05-2023', '31-05-2023', '31-06-2023', '30-06-2023', '31-10-2023', '31-09-2023', '30-09-2023', '31-08-2022', '06/31/2020', '06/30/2020'];
+// console.log(checkDates(arrayOfDates4));
 
 
 
