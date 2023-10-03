@@ -13,34 +13,13 @@ const toDoList = {
     ],
 
     addTask(newTaskObj) {
-        
-        const taskObj = {
-            id: ++this.lastId,
-            ...newTaskObj
-        }
-        //добавление задачи
-        this.tasks.push(taskObj)
-        console.log(`Задача "${taskObj.title}" успешно добавлена \nid задачи ${taskObj.id}`)
+        newTaskObj.id = ++this.lastId;
+        this.tasks.push(newTaskObj);
+        console.log(`Задача "${newTaskObj.title}" успешно добавлена \nid задачи ${newTaskObj.id}`)
     },
 
-    //отдельный метод для проверки наличия задачи по id
-    // checkId(id) {
-    //     return this.tasks.find(el => {
-    //         return el.id == id;  
-    //     });    
-    // },
-
     removeTaskByID(id) {
-        // if (!this.checkId(id))  {
-        //     console.log(`Задачи с id = ${id} нет в списке`);
-        //     return
-        // } 
-        // this.tasks.map((task, index) => {
-        //     if(task.id === id) {
-        //         const removedTask = this.tasks.splice(index, 1);
-        //         console.log(`Задача "${removedTask[0].title}" удалена`);
-        //     }
-        // }) 
+       
         let res = this.tasks.find((task, index) => {
             if(task.id === id) {
                 const removedTask = this.tasks.splice(index, 1);
@@ -55,12 +34,6 @@ const toDoList = {
     },
 
     updateTask(id, updatedTask) {
-        // let oldTask = this.checkId(id);
-      
-        // if (!oldTask) {
-        //     console.log(`Нет задачи с id ${id}`);
-        //     return;
-        // }
 
         let res = this.tasks.find((task, index) => {
             if(task.id === id) {
