@@ -2,6 +2,8 @@
 
 const toDoList = {
 
+    lastId: 1,
+
     tasks: [
         {
             'title': 'Помыть посуду',
@@ -11,13 +13,9 @@ const toDoList = {
     ],
 
     addTask(newTaskObj) {
-        //определение id
-        const idsArr = this.tasks
-        .map(task => task.id)
-        .sort((a, b) => b - a);
         
         const taskObj = {
-            id: ++idsArr[0],
+            id: ++this.lastId,
             ...newTaskObj
         }
         //добавление задачи
@@ -26,36 +24,58 @@ const toDoList = {
     },
 
     //отдельный метод для проверки наличия задачи по id
-    checkId(id) {
-        return this.tasks.find(el => {
-            return el.id == id;  
-        });    
-    },
+    // checkId(id) {
+    //     return this.tasks.find(el => {
+    //         return el.id == id;  
+    //     });    
+    // },
 
     removeTaskByID(id) {
-        if (!this.checkId(id))  {
-            console.log(`Задачи с id = ${id} нет в списке`);
-            return
-        } 
-        this.tasks.map((task, index) => {
+        // if (!this.checkId(id))  {
+        //     console.log(`Задачи с id = ${id} нет в списке`);
+        //     return
+        // } 
+        // this.tasks.map((task, index) => {
+        //     if(task.id === id) {
+        //         const removedTask = this.tasks.splice(index, 1);
+        //         console.log(`Задача "${removedTask[0].title}" удалена`);
+        //     }
+        // }) 
+        let res = this.tasks.find((task, index) => {
             if(task.id === id) {
                 const removedTask = this.tasks.splice(index, 1);
                 console.log(`Задача "${removedTask[0].title}" удалена`);
+                return true;
             }
         }) 
+
+        if (!res) {
+            console.log(`Нет задачи с id ${id}`);
+        }
     },
 
     updateTask(id, updatedTask) {
-        let oldTask = this.checkId(id);
+        // let oldTask = this.checkId(id);
       
-        if (!oldTask) {
+        // if (!oldTask) {
+        //     console.log(`Нет задачи с id ${id}`);
+        //     return;
+        // }
+
+        let res = this.tasks.find((task, index) => {
+            if(task.id === id) {
+                this.tasks[index] = {...this.tasks[index], ...updatedTask};
+                return true;
+            }
+        }) 
+       
+        if (!res) {
             console.log(`Нет задачи с id ${id}`);
-            return;
         }
 
-        for (const [key, value] of Object.entries(updatedTask)) {
-            oldTask[`${key}`] = value;
-        }
+        // for (const [key, value] of Object.entries(updatedTask)) {
+        //     oldTask[`${key}`] = value;
+        // }
     },
 
     sortTasksByPriority() {
@@ -104,18 +124,17 @@ const optionsToBeUpdated4 = {
 // проверки
 toDoList.addTask(task1);
 toDoList.addTask(task2);
-toDoList.addTask(task3);
+// toDoList.addTask(task3);
+console.log(toDoList.tasks);
 toDoList.updateTask(2, optionsToBeUpdated3);
-console.log(toDoList.tasks);
 toDoList.updateTask(1, optionsToBeUpdated1);
-console.log(toDoList.tasks);
 toDoList.updateTask(10, optionsToBeUpdated2);
+toDoList.updateTask(4, optionsToBeUpdated4);
 console.log(toDoList.tasks);
-toDoList.updateTask(2, optionsToBeUpdated2);
-toDoList.updateTask(3, optionsToBeUpdated4);
-console.log(toDoList.tasks);
-toDoList.removeTaskByID(2);
-console.log(toDoList.tasks);
-// toDoList.removeTaskByID(2);
+toDoList.removeTaskByID(3);
+toDoList.addTask(task3);
+toDoList.updateTask(4, optionsToBeUpdated4);
 // console.log(toDoList.tasks);
-toDoList.sortTasksByPriority();
+// // toDoList.removeTaskByID(2);
+// // console.log(toDoList.tasks);
+// toDoList.sortTasksByPriority();
