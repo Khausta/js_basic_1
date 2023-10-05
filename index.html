@@ -49,15 +49,15 @@
                     <!-- <div class="habbit">
                         <div class="habbit__day">День _</div>
                         <div class="habbit__comment">Первый подход всегда даётся тяжело</div>
-                        <button class="habbit__delete">
+                        <button class="habbit__delete" onclick="deleteDay(event)">
                             <img src="images/delete.svg" alt="Удалить день 1">
                         </button>
                     </div> -->
                 </div>
                 <div class="habbit">
                     <div class="habbit__day">День _</div>
-                    <form class="habbit__form">
-                        <input class="input_icon" type="text" placeholder="Комментарий">
+                    <form class="habbit__form" onsubmit="addDays(event)">
+                        <input name="comment" class="input_icon" type="text" placeholder="Комментарий">
                         <img class="input__icon" src="images/comment-icon.svg" alt="иконка">
                         <button class="button" type="submit">Готово</button>
                     </form>
