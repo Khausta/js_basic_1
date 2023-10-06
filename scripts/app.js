@@ -15,6 +15,10 @@ const page = {
     content: {
         daysContainer: document.getElementById('days'),
         nextDay: document.querySelector('.habbit__day'),
+    },
+    popup: {
+        index: document.getElementById('add-habbit-popup'),
+        iconField:  document.querySelector('.popup__form input[name="icon"]')
     }
 };
 
@@ -30,6 +34,16 @@ function loadData() {
 
 function saveData() {
     localStorage.setItem(HABBIT_KEY, JSON.stringify(habbits));
+}
+
+
+function togglePopup() {
+   
+        if(page.popup.index.classList.contains('cover_hidden')) {
+            page.popup.index.classList.remove('cover_hidden');
+        } else {
+            page.popup.index.classList.add('cover_hidden');
+        }
 }
 
 // render
@@ -76,7 +90,7 @@ function rerenderContent(activeHabbit) {
     element.classList.add('habbit');
     element.innerHTML = `<div class="habbit__day">День ${Number(index) + 1}</div>
     <div class="habbit__comment">${activeHabbit.days[index].comment}</div>
-    <button class="habbit__delete" onclick="deleteDay(event)">
+    <button class="habbit__delete" onclick="deleteDay(${index})">
         <img src="images/delete.svg" alt="Удалить день ${Number(index) + 1}">
     </button>`;
     page.content.daysContainer.appendChild(element);
@@ -124,10 +138,29 @@ function addDays(event) {
     saveData();
 }
 
-function deleteDay(event) {
-    event.preventDefault();
-    console.log(event);
+function deleteDay(index) {
+    habbits.map(habbit => {
+        if (habbit.id === globalActiveHabbitId) {
+            habbit.days.splice(index, 1);
+            return {
+                ...habbits,
+                days: habbit.days
+            };
+        }
+        return habbit;
+    })
+    console.log(index);
+    rerender(globalActiveHabbitId);
+    saveData(); 
 }
+
+function setIcon(context, icon) {
+    page.popup.iconField.value = icon;
+    const activeIcon = document.querySelector('.icon.icon_active');
+    activeIcon.classList.remove('icon_active');
+    context.classList.add('icon_active');
+}
+
 
 //init
 (() => {
