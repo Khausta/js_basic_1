@@ -18,7 +18,8 @@ const page = {
     },
     popup: {
         index: document.getElementById('add-habbit-popup'),
-        iconField:  document.querySelector('.popup__form input[name="icon"]')
+        iconField:  document.querySelector('.popup__form input[name="icon"]'),
+        submitButton: document.querySelector('.popup__form input[type="submit"]')
     }
 };
 
@@ -44,6 +45,37 @@ function togglePopup() {
         } else {
             page.popup.index.classList.add('cover_hidden');
         }
+}
+
+function resetForm(form, fields) {
+    for (const field of fields) {
+        form[field].value = "";
+    }
+}
+
+
+function validateAndGetFormData(form, fields) {
+    const formData = new FormData(form);
+    let response = {};
+    for (const field of fields) {
+        const fieldValue = formData.get(field);
+        form[field].classList.remove('error');
+        if (!fieldValue) {
+            form[field].classList.add('error');
+        }
+        response[field] = fieldValue;
+    }
+    let isValid = true;
+    for (const field of fields) {
+        if (!response[field]) {
+            isValid = false;
+        }
+    }
+    if (!isValid) {
+        return;
+    }
+    return response;
+   
 }
 
 // render
@@ -106,6 +138,7 @@ function rerender(activeHabbitId) {
     if (!activeHabbit) {
         return;
     }
+    document.location.replace(document.location.pathname + '#' + activeHabbitId);
     rerenderMenu(activeHabbit);
     rerenderHead(activeHabbit);
     rerenderContent(activeHabbit);
@@ -114,28 +147,45 @@ function rerender(activeHabbitId) {
 //work with days
 function addDays(event) {
     event.preventDefault();
-    console.log(event);
-    const form = event.target;
-    const data = new FormData(form);
-    const comment = data.get('comment');
-    form['comment'].classList.remove('error');
-    if (!comment) {
-       form['comment'].classList.add('error');
+    const data = validateAndGetFormData(event.target, ['comment']);
+    if (!data) {
+        return;
     }
-    // console.log(globalActiveHabbitId);
     habbits = habbits.map(habbit => {
         if(habbit.id === globalActiveHabbitId) {
             return {
                 ...habbit,
-                days: habbit.days.concat([{ comment }])
+                days: habbit.days.concat([{ comment: data.comment }])
             }
         } else {
             return habbit;
         }
     });
-    form['comment'].value = '';
+    resetForm(event.target, ['comment']);
     rerender(globalActiveHabbitId);
-    saveData();
+    saveData();  
+    //перед рефакторингом===============
+    // const form = event.target;
+    // const data = new FormData(form);
+    // const comment = data.get('comment');
+    // form['comment'].classList.remove('error');
+    // if (!comment) {
+    //    form['comment'].classList.add('error');
+    // }
+    // // console.log(globalActiveHabbitId);
+    // habbits = habbits.map(habbit => {
+    //     if(habbit.id === globalActiveHabbitId) {
+    //         return {
+    //             ...habbit,
+    //             days: habbit.days.concat([{ comment }])
+    //         }
+    //     } else {
+    //         return habbit;
+    //     }
+    // });
+    // form['comment'].value = '';
+    // rerender(globalActiveHabbitId);
+    // saveData();
 }
 
 function deleteDay(index) {
@@ -161,11 +211,75 @@ function setIcon(context, icon) {
     context.classList.add('icon_active');
 }
 
+function addHabbit(event) {
+    event.preventDefault();
+    const data = validateAndGetFormData(event.target, ['name', 'icon', 'target']);
+    if (!data) {
+        return;
+    }
+    let maxId = habbits.reduce((acc, habbit) => acc > habbit.id ? acc : habbit.id, 0)
+    habbits.push({
+        id: ++maxId,
+        icon: data.icon,
+        name: data.name,
+        target: data.target,
+        days: [],
+    });
+    resetForm(event.target, ['name', 'target']);
+    togglePopup();
+    saveData();
+    rerender(maxId); //уже увеличено
+    //мой вариант, но он не сохранял новую привычку после перезагрузки страницы
+    // const form = event.target;
+    // const data = new FormData(form);
+    // const newHabbitName = data.get('name');
+    // const newHabbitTarget = data.get('target');
+    // const newHabbitIcon = data.get('icon');
+    // console.log(newHabbitName == true, newHabbitTarget, newHabbitIcon);
+    // form['name'].classList.remove('error');
+    // form['target'].classList.remove('error');
+    // if (!newHabbitName) {
+    //     form['name'].classList.add('error');
+    // }
+    // if(!newHabbitTarget) {
+    //     form['target'].classList.add('error');
+    // }
+    // let lastId = habbits.reduce((acc, habbit) => {
+    //     if (habbit.id > acc) {
+    //         return acc = habbit.id;
+    //     }
+    // }, 0);
+    // const newHabbit = {
+    //     "id": ++lastId,
+    //     "icon": newHabbitIcon,
+    //     "name": newHabbitName,
+    //     "target": newHabbitTarget,
+    //     "days": [],
+    // }
+    // console.log(newHabbit);
+    // habbits.push(newHabbit);
+    // form['name'].value = '';
+    // form['target'].value = '';
+    // rerender(globalActiveHabbitId);
+    // saveData();
+
+    //вариант преподавателя
+
+}
+
 
 //init
 (() => {
     loadData();
-    rerender(habbits[0].id);
+    // rerender(habbits[0].id); --- меняем на код ниже для ререндера с активной крайней пррвычкой, чтоб не пришлось переключать
+    const hashId = Number(document.location.hash.replace('#', ''));
+    const urlHabbit = habbits.find(habbit => habbit.id === hashId);
+    // console.log(urlHabbitId);
+    if (urlHabbit) {
+        rerender(urlHabbit.id);
+    } else {
+        rerender(habbits[0].id);
+    }
 })();
 
 
