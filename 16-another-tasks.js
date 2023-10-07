@@ -1,6 +1,7 @@
 'use strict'
 
 const toDoList = {
+    lastId: 2,
     tasks: [
         {
             task: 'Помыть посуду',
@@ -10,87 +11,44 @@ const toDoList = {
         {
             task: 'Помыть пол',
             id: 2,
-            priority: 1, 
+            priority: 1000, 
         }
     ],
 
-    addTask(task, priority) {
+    addTask(newTaskObj) {
         
-            //проверка на существование задачи
-            let isExisted = false;
-            this.tasks.forEach(el => {
-                if (el.task === task) {
-                    console.log(el.task);
-                    isExisted = true;
-                }
-            })
-            
-            if (isExisted) {
-                console.log(`Задача "${task}" уже существет`);
-                return
-            }
-            //добавление задачи
-            const idsArr = this.tasks.map(task => {
-                return task.id;
-            })
-            idsArr.sort((a, b) => b - a);
-            const id = ++idsArr[0];
-    
-            this.tasks.push({
-                task: task,
-                id,
-                priority
-            });
-            console.log(`Задача "${task}" успешно добавлена \nid задачи ${id} `)
-            
-        
-    } ,
+        newTaskObj.id = ++this.lastId;
+        this.tasks.push(newTaskObj);
+        console.log(`Задача "${newTaskObj.title}" успешно добавлена \nid задачи ${newTaskObj.id}`)
+    },
 
     removeTaskByID(id) {
 
-       
-            let isExistedId = this.tasks.find(el => {
-                console.log(el.id)
-                return el.id == id;  
-            });
+        let res = this.tasks.find((task, index) => {
+            if(task.id === id) {
+                const removedTask = this.tasks.splice(index, 1);
+                console.log(`Задача "${removedTask[0].title}" удалена`);
+                return true;
+            }
+        }) 
 
-            if (!isExistedId) {
-                console.log(`Задачи с id = ${id} нет в списке`);
-                console.log(id);
-                return;
-            }   
-        
-            this.tasks.map((task, index) => {
-                if(task.id === id) {
-                    const removedTask = this.tasks.splice(index, 1);
-                    console.log(`Задача "${removedTask[0].task}" удалена`);
-                }
-            })
-          
+        if (!res) {
+            console.log(`Нет задачи с id ${id}`);
+        }  
     },
 
-    updateTask(option, id, value) {
+    updateTask(id, updatedTask) {
        
-      
-            this.tasks.map(task => {
-                if (task.id === id) {
-                    switch(option) {
-                        case 'title':
-                            const oldTitle = task.task;
-                            task.task = value;
-                            console.log(`Задача "${oldTitle}" переименована на "${task.task}"`);
-                            break;
-                        case 'priority': 
-                            task[`${option}`] = value;
-                            console.log(`Приоритет задачи "${task.task}" изменен`);
-                            break;
-                        default:
-                            console.log('Введите правильные значения');
-                    }
-                }
-            })
-          
-        
+        let res = this.tasks.find((task, index) => {
+            if(task.id === id) {
+                this.tasks[index] = {...this.tasks[index], ...updatedTask};
+                return true;
+            }
+        }) 
+       
+        if (!res) {
+            console.log(`Нет задачи с id ${id}`);
+        }   
     },
 
     sortTasksByPriority() {
@@ -101,57 +59,65 @@ const toDoList = {
     }
 }
 
-
-const newTask = {
+//обьект к которому должны быть применены мутоды объекта toDoList по заданию
+const newTasks = {
+    lastId: 1,
     tasks: [
         {
             id: 1,
-            task: 'Важная задача',
-            priority: 2,
-            description: 'не заполнено',
+            title: 'тест',
+            description: 'описание',
+            priority: 0
         },
-        {
-            task: 'Помыть пол',
-            id: 2,
-            priority: 1, 
-        }
-    ]
+    ],
+    addTask(obj) {
+        return toDoList.addTask.bind(this)(obj);
+    },
+
+    removeTaskByID(id) {
+        return toDoList.removeTaskByID.bind(this)(id);
+    },
+
+    updateTaskById(id, obj) {
+        return toDoList.updateTask.bind(this)(id, obj);
+    },
+
+    sortTasksByPriority() {
+        return toDoList.sortTasksByPriority.bind(this)();
+    }
 };
 
-//проверки
-toDoList.addTask('Собрать яблоки', 4);
-toDoList.addTask('Собрать яблоки', 4);
-console.log(toDoList.tasks);
+//обьекты для проверки
+const newTask1 = {
+    title: 'Собрать яблоки',
+    priority: 4,
+    description: 'Собирать только спелые' 
+};
 
-const addTask = toDoList.addTask.bind(newTask);
-addTask('Собрать груши', 4);
-console.log(newTask.tasks);
+const newTask2 = {
+    title: 'Сделать вино',
+    priority: 8,
+    description: 'Подготовить все ингридиенты' 
+};
 
-toDoList.removeTaskByID(2);
-toDoList.removeTaskByID(2);
+const newTask3 = {
+    priority: 8000,
+};
 
-const removeTaskByID = toDoList.removeTaskByID.bind(newTask);
-removeTaskByID(1);
-console.log(newTask.tasks);
+const newTask4 = {
+    reason: 'Очень много яблок в этом году'
+};
 
-toDoList.updateTask('title', 1, 'Стать космонавтом');
-console.log(toDoList.tasks);
+//мои проверки
+newTasks.addTask(newTask1);
+newTasks.addTask(newTask2);
+newTasks.sortTasksByPriority();
+newTasks.removeTaskByID(2);
+newTasks.addTask(newTask1);
+newTasks.updateTaskById(4, newTask4);
+newTasks.updateTaskById(4, newTask3);
+console.log(newTasks.tasks);
 
-const updateTaskTitleByID = toDoList.updateTask.bind(newTask, 'title');
-updateTaskTitleByID(2, 'Забраться на Эверест');
-console.log(newTask.tasks);
-
-toDoList.updateTask('priority', 1, 300);
-console.log(toDoList.tasks);
-
-const updateTaskPriorityByID = toDoList.updateTask.bind(newTask, 'priority');
-updateTaskPriorityByID(2, 200);
-console.log(newTask.tasks);
-
-toDoList.sortTasksByPriority();
-
-const sortTasksByPriority = toDoList.sortTasksByPriority.bind(newTask);
-sortTasksByPriority();
 
 
 
